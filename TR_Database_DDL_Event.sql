@@ -210,12 +210,11 @@ create proc tools.P_Run_Test_Sweet as
 go
 
 -- ------------------------------------------------------------------
-drop proc if exists tools.P_Report_Test_Sweet_System_Status;
+drop view if exists tools.VW_Test_Sweet_Dashboard;
 go
-create proc tools.P_Report_Test_Sweet_System_Status as
+create view tools.VW_Test_Sweet_Dashboard as
 	/*
-	Returns select results
-	exec tools.P_Report_Test_Sweet_System_Status
+	select * from tools.VW_Test_Sweet_Dashboard
 	*/
 	select 
 		tools.FN_Test_Sweet_Status_Value(Status_ID) as [Status],
@@ -224,5 +223,22 @@ create proc tools.P_Report_Test_Sweet_System_Status as
 		min(Tested_On) as Latest_Test
 	from tools.Test_Sweet
 	group by Status_ID
-	order by count(*) desc
+go
+
+-- ------------------------------------------------------------------
+drop view if exists tools.VW_Test_Sweet;
+go
+create view tools.VW_Test_Sweet as
+	/*
+	select * from tools.VW_Test_Sweet
+	*/
+	SELECT 
+		Test_Sweet_ID,
+		Test_Sweet_Name,
+		tools.FN_Test_Sweet_Status_Value(Status_ID) as Status_Value,
+		Tested_On,
+		Test_Instructions,
+		Expected_Results,
+		Test_Results
+	FROM tools.Test_Sweet
 go
