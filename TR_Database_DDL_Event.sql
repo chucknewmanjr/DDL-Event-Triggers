@@ -59,9 +59,7 @@ insert tools.Test_Sweet_Status (Status_ID, Status_Value) values
 go
 
 -- ------------------------------------------------------------------
-drop function if exists tools.FN_Test_Sweet_Status_ID
-go
-create function tools.FN_Test_Sweet_Status_ID(@Status_Value varchar(20)) returns int as begin
+create or alter function tools.FN_Test_Sweet_Status_ID(@Status_Value varchar(20)) returns int as begin
 	/*
 	select * from tools.Test_Sweet where Status_ID != tools.FN_Test_Sweet_Status_ID('Success')
 	*/
@@ -70,9 +68,7 @@ end
 go
 
 -- ------------------------------------------------------------------
-drop function if exists tools.FN_Test_Sweet_Status_Value
-go
-create function tools.FN_Test_Sweet_Status_Value(@Status_ID int) returns varchar(20) as begin
+create or alter function tools.FN_Test_Sweet_Status_Value(@Status_ID int) returns varchar(20) as begin
 	/*
 	select tools.FN_Test_Sweet_Status_Value(Status_ID), * from tools.Test_Sweet
 	*/
@@ -81,9 +77,7 @@ end
 go
 
 -- ------------------------------------------------------------------
-drop proc if exists tools.P_Get_Test_Results
-go
-create proc tools.P_Get_Test_Results @Test_Instructions nvarchar(max), @Results varchar(max) out as 
+create or alter proc tools.P_Get_Test_Results @Test_Instructions nvarchar(max), @Results varchar(max) out as 
 	/*
 	Outputs the results of a test. Useful for setting up a test.
 	declare @Results varchar(max)
@@ -94,9 +88,7 @@ create proc tools.P_Get_Test_Results @Test_Instructions nvarchar(max), @Results 
 go
 
 -- ------------------------------------------------------------------
-drop proc if exists tools.P_Set_Test_Sweet
-go
-create proc tools.P_Set_Test_Sweet 
+create or alter proc tools.P_Set_Test_Sweet 
 	@Test_Sweet_Name varchar(50), 
 	@Test_Instructions nvarchar(max), 
 	@Expected_Results varchar(max)
@@ -145,7 +137,7 @@ exec tools.P_Set_Test_Sweet 'Test Sweet Test 4', @The_Test, @Results;
 go
 
 -- ------------------------------------------------------------------
-create trigger TR_Database_DDL_Event on database after DDL_DATABASE_LEVEL_EVENTS as
+create or alter trigger TR_Database_DDL_Event on database after DDL_DATABASE_LEVEL_EVENTS as
 	/*
 	This trigger is dropped way up at the top.
 	This trigger fires for all database level DDL events.
@@ -165,9 +157,7 @@ create trigger TR_Database_DDL_Event on database after DDL_DATABASE_LEVEL_EVENTS
 go
 
 -- ------------------------------------------------------------------
-drop proc if exists tools.P_Run_Test_Sweet;
-go
-create proc tools.P_Run_Test_Sweet as
+create or alter proc tools.P_Run_Test_Sweet as
 	/*
 	This proc runs the tests.
 	It's intended to be called by a scheduled job.
@@ -210,9 +200,7 @@ create proc tools.P_Run_Test_Sweet as
 go
 
 -- ------------------------------------------------------------------
-drop view if exists tools.VW_Test_Sweet_Dashboard;
-go
-create view tools.VW_Test_Sweet_Dashboard as
+create or alter view tools.VW_Test_Sweet_Dashboard as
 	/*
 	select * from tools.VW_Test_Sweet_Dashboard
 	*/
@@ -226,9 +214,7 @@ create view tools.VW_Test_Sweet_Dashboard as
 go
 
 -- ------------------------------------------------------------------
-drop view if exists tools.VW_Test_Sweet;
-go
-create view tools.VW_Test_Sweet as
+create or alter view tools.VW_Test_Sweet as
 	/*
 	select * from tools.VW_Test_Sweet
 	*/

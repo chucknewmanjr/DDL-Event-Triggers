@@ -125,10 +125,7 @@ if OBJECT_ID('tools.DDL_Event_Object_Type') is null
 	);
 go
 
-drop proc if exists tools.p_Insert_DDL_Event;
-go
-
-create proc tools.p_Insert_DDL_Event @DDL_Event_ID int, @DDL_Event_XML xml as
+create or alter proc tools.p_Insert_DDL_Event @DDL_Event_ID int, @DDL_Event_XML xml as
 	/*
 	Usually called by tools.p_Process_DDL_Event_Staging.
 	The XML originally comes from the EVENTDATA() function in a DDL trigger.
@@ -222,10 +219,7 @@ create proc tools.p_Insert_DDL_Event @DDL_Event_ID int, @DDL_Event_XML xml as
 	);
 go
 
-drop proc if exists tools.p_Process_DDL_Event_Staging;
-go
-
-create proc tools.p_Process_DDL_Event_Staging as
+create or alter proc tools.p_Process_DDL_Event_Staging as
 	/*
 	Usually called by a DDL trigger.
 	This proc spends just a fraction of a second to process 
@@ -256,7 +250,7 @@ create proc tools.p_Process_DDL_Event_Staging as
 go
 
 -- This trigger got dropped at the very top of the script.
-create trigger TR_Server_DDL_Event on all server after DDL_EVENTS as
+create or alter trigger TR_Server_DDL_Event on all server after DDL_EVENTS as
 	/*
 	This is a DDL trigger.
 	"on all server after DDL_EVENTS" means it captures all DDL changes in the entire server.
@@ -280,10 +274,7 @@ create trigger TR_Server_DDL_Event on all server after DDL_EVENTS as
 go
 
 -- ------------------------------------------------------
-drop view if exists tools.VW_DDL_Event;
-go
-
-create view tools.VW_DDL_Event as
+create or alter view tools.VW_DDL_Event as
 	select 
 		e.DDL_Event_ID, 
 		et.[type_name] as EventType, 
@@ -309,10 +300,7 @@ create view tools.VW_DDL_Event as
 go
 
 -- ------------------------------------------------------
-drop view if exists tools.VW_DDL_Event_Object_List;
-go
-
-create view tools.VW_DDL_Event_Object_List as
+create or alter view tools.VW_DDL_Event_Object_List as
 	/*
 	select * from tools.VW_DDL_Event_Object_List
 	*/
@@ -333,10 +321,7 @@ create view tools.VW_DDL_Event_Object_List as
 go
 
 -- ------------------------------------------------------
-drop proc if exists tools.p_Get_DDL_Event_List_for_Object;
-go
-
-create proc tools.p_Get_DDL_Event_List_for_Object @DatabaseName sysname, @ObjectName sysname as
+create or alter proc tools.p_Get_DDL_Event_List_for_Object @DatabaseName sysname, @ObjectName sysname as
 	/*
 	Primarilly for an SSMS custom report developed in SSRS named "DDL Events.rdl".
 	It expects 2 parameters (@DatabaseName & @ObjectName)
@@ -362,10 +347,7 @@ create proc tools.p_Get_DDL_Event_List_for_Object @DatabaseName sysname, @Object
 go
 
 -- ------------------------------------------------------
-drop proc if exists tools.p_Rerun_DDL_Events;
-go
-
-create proc tools.p_Rerun_DDL_Events 
+create or alter proc tools.p_Rerun_DDL_Events 
 	@DatabaseName sysname, 
 	@ObjectName sysname,
 	@From_DDL_Event_ID int,
@@ -468,6 +450,7 @@ go
 
 -- ========================================================
 -- ========================================================
+-- this part is just to make some DDL changes
 
 drop table if exists dbo.t;
 go
