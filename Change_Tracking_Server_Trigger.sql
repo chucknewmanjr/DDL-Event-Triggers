@@ -1,7 +1,7 @@
 use master
 go
 /*
-===== change  tracking =====
+===== change tracking =====
 All schema changes in all databases are collected into the tools database
 by a server level DDL trigger.
 */
